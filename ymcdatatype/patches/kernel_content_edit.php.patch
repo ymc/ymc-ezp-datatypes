@@ -1,0 +1,50 @@
+--- /home/ymc-toko/data/ezpublish-4.0.0/./kernel/content/edit.php	2007-12-03 22:51:15.000000000 +0100
++++ ./kernel/content/edit.php	2008-03-18 09:32:12.000000000 +0100
+@@ -30,6 +30,11 @@
+ $Module = $Params['Module'];
+ require 'kernel/content/node_edit.php';
+ initializeNodeEdit( $Module );
++//by ymc-dabe //PATCH: We need to register our own module-hocks //start
++//patch for extension ymcDatatype
++ymcDatatypeEditHooks::initialize( $Module );
++
++//by ymc-dabe //PATCH: We need to register our own module-hocks //end
+ require 'kernel/content/relation_edit.php';
+ initializeRelationEdit( $Module );
+ require 'kernel/content/section_edit.php';
+@@ -57,6 +62,35 @@
+ $class = eZContentClass::fetch( $classID );
+ $http = eZHTTPTool::instance();
+ 
++
++if ( $EditLanguage == "none" or $EditVersion == 'a' )
++{
++    $EditLanguage = '';
++}
++else if ( !$http->hasPostVariable('ContentObjectLanguageCode') and !$EditLanguage )
++{
++    $siteINI = eZINI::instance();
++    if ( $siteINI->variable( "RegionalSettings", "UseFirstLanguageIfNoLanguageGiven" ) == 'enabled' )
++    {
++        $tempSiteLanguageList = $siteINI->variable( "RegionalSettings", "SiteLanguageList" );
++        if ( count($tempSiteLanguageList) > 0 )
++        {
++            $EditLanguage = $tempSiteLanguageList[0];
++            $http->setPostVariable('ContentObjectLanguageCode', $EditLanguage);
++        }
++        unset($tempSiteLanguageList);
++    }
++}
++else
++{
++    $siteINI = eZINI::instance();
++    if ( !in_array($EditLanguage, $siteINI->variable( "RegionalSettings", "SiteLanguageList" )) )
++    {
++        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
++    }
++}
++
++
+ // Action for the edit_draft.tpl/edit_languages.tpl page.
+ // CancelDraftButton is set for the Cancel button.
+ // Note: This code is safe to place before permission checking.

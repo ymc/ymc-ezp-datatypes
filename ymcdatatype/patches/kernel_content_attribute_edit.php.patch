@@ -1,0 +1,35 @@
+--- /home/ymc-toko/data/ezpublish-4.0.0/./kernel/content/attribute_edit.php	2007-12-03 22:51:15.000000000 +0100
++++ ./kernel/content/attribute_edit.php	2008-03-18 09:34:44.000000000 +0100
+@@ -294,6 +294,19 @@
+                              $attributeInputMap );
+         $db->commit();
+     }
++    //by ymc-dabe //PATCH: we store the input in volano, even if it is not validated, as we do not want to force our users to e.g. upload images again in case they forgot to fill out a textfield... //start
++    else if ( count( $attributeInputMap ) > 0 )
++    {
++        $version->setAttribute( 'modified', time() );
++        $version->setAttribute( 'status', eZContentObjectVersion::STATUS_DRAFT );
++        $db = eZDB::instance();
++        $db->begin();
++        $object->storeInput( $contentObjectAttributes,
++                             $attributeInputMap );
++        $db->commit();
++        unset($db);
++    }
++    //by ymc-dabe //PATCH: we store the input in volano, even if it is not validated, as we do not want to force our users to e.g. upload images again in case they forgot to fill out a textfield... //end
+ 
+     $validation['processed'] = true;
+     $validation['attributes'] = $unvalidatedAttributes;
+@@ -319,6 +332,12 @@
+     eZContentObject::recursionProtectionEnd();
+ }
+ 
++//by ymc-dabe //PATCH: New hock "post_store" //start
++//patch for extension ymcDatatype
++if ( $Module->runHooks( 'post_store', array( $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$validation ) ) )
++    return;
++//by ymc-dabe //PATCH: New hock "post_store" //end
++
+ $invalidNodeAssignmentList = array();
+ if ( $Module->isCurrentAction( 'Publish' ) )
+ {

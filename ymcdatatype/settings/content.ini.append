@@ -1,0 +1,16 @@
+[DataTypeSettings]
+ExtensionDirectories[]=ymcdatatype
+AvailableDataTypes[]=ymccontentinfo
+AvailableDataTypes[]=ymccountry
+AvailableDataTypes[]=ymcdate
+AvailableDataTypes[]=ymcdatetime
+AvailableDataTypes[]=ymcdomain
+AvailableDataTypes[]=ymcenhancedselection
+AvailableDataTypes[]=ymcinstantmessenger
+AvailableDataTypes[]=ymcipv4
+AvailableDataTypes[]=ymcmschapv2
+AvailableDataTypes[]=ymcnumberasstring
+AvailableDataTypes[]=ymcsoarecord
+AvailableDataTypes[]=ymcuniquestring
+AvailableDataTypes[]=ymcvolume
+AvailableDataTypes[]=ymcweight

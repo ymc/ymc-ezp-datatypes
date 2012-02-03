@@ -1,0 +1,80 @@
+
+This extension contains datatypes that have a rather universal usage and do
+not belong to a specific extension.
+
+Overview of datatypes
+=====================
+
+ymccontentinfo
+ Displays a predefined static text in the object edit dialog. The static text
+ is given in the class edit dialog.
+
+ymcdate
+  compatible to ezbirthday, stores dates
+
+ymcdatetime
+  stores DateTime objects with timezones
+
+ymcdomain
+  stores a domain name either with or without subdomain. The storing could
+  also have been done by a simple string datatype. But our datatype includes
+  functionality to check the given input and accepts only valid domain
+  strings.
+
+ymcenhancedselection 
+  allows to select predefined content nodes. The object is then automatically
+  stored below the selected nodes. We use this to for example to assign videos
+  to categories, where the categories a simple nodes in the content tree.
+ 
+ymcinstantmessenger 
+  Let the user enter a nick for a predefined im service.
+
+ymcipv4
+  Simply store an IPv4 (xxx.xxx.xxx.xxx) as a string in the db.
+
+ymcmschapv2
+  Stores LM-/NT-passwords.
+
+ymcnumberasstring
+  Stores integer number of a predefined maximum length as strings.
+
+ymcsoarecord
+
+ymcuniquestring
+ saves a string, but accepts the string only if it is unique in all objects of
+ the same type.
+
+ymcvolume
+ymcweight
+
+ymcCountry
+==========
+
+This extension adds a dataype called "Country" to your eZ publish, which than
+can be used to select a country from a drop-down list by creating an object.
+This dataype uses the ISO 3166-3 standard to store the country definition in
+the database and is fully translatable using a standard translation.ts.
+Country definitions can be changed by just adapting a configuration files,
+which eliminates the need of hacking templates.
+
+Configuration
+-------------
+
+You can define a country, which than will be preselected for new objects:
+
+In the configuration file      in section       change
+ymccountry.ini                 [Default]        DefaultCountry
+   
+To select e.g. Norway as the default country, change
+ DefaultCountry=false
+to
+ DefaultCountry=NOR
+
+If you prefer not to preselect a country set:
+ DefaultCountry=false
+
+Know issues
+-----------
+
+The ISO 3166-3 might be outdated or is missing some countries. You can get a recent
+definition from http://www.iso.org (price is around CHF 72).

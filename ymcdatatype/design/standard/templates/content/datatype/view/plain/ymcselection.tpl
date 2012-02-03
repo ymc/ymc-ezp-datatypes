@@ -1,0 +1,1 @@
+{let selected_id_array=$attribute.content}{section var=Options loop=$attribute.class_content.options}{section show=$selected_id_array|contains( $Options.item.id )}{$Options.item.name|wash( xhtml )}{/section}{/section}{/let}
